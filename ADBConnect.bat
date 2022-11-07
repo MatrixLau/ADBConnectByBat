@@ -1,35 +1,35 @@
 @echo off
-cd E:\Scropy_GUI_byCZ_V3.1.0
+
+@REM SET YOUR DIR PATH HERE WHERE INCLUDED ADB.EXE AND SOME OTHER FILES NEED TO RUN WITH ADB
+set DIRPATH=E:\Scropy_GUI_byCZ_V3.1.0
+@rem SET YOUR DEVICE ADB IP HERE
+SET %IPADDRESS%=192.168.1.247
+
+cd %DIRPATH%
 
 echo Try to connect your device......
-@REM adb connect 192.168.1.247
-
-
-for /F %%i in ('adb connect 192.168.1.247') ^
+for /F %%i in ('adb connect %IPADDRESS%') ^
 do (
     if %%i == already (
         echo Device already connected
         goto :start
-    )
-
-    if %%i == connected (
+    ) else if %%i == connected (
         echo Device connected
         goto :start
-    )
-
-    if %%i == unable (
+    ) else if %%i == unable (
         echo Unable to connect device
         goto :end
-    )
-
-    if %%i == failed (
+    ) else if %%i == failed (
         echo Failed to connect device
+        goto :end
+    ) else (
+        echo Unknown error
         goto :end
     )
 )
-PAUSE
 
 :start
+@REM SET THE EXE FILE TO START HERE
 start Scrcpy_GUI_byCZ_V3.1.0.exe
 
 :end
